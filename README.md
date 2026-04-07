@@ -1,11 +1,5 @@
 # Serpent
-A programming languange made by using C. 
-
-# Features 
-Hardware - Level Operations
-Package Maker 
-Like C Syntax
-Function Performance 
+A programming languange made by using C Languange 
 
 # Notes
 In Beta Currently 
