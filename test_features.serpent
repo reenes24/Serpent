@@ -1,0 +1,4 @@
+print "Hello" + " " + "Serpent!";
+print 1 + 2 * 3;
+print !true;
+print 10 > 5;

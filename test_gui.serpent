@@ -1,0 +1,46 @@
+print "--- Serpent Wayland GUI Test ---";
+
+var width = 400;
+var height = 300;
+var win = wl_create(width, height, "Serpent Graphics");
+
+if (win == nil) {
+    print "Hata: Wayland penceresi acilamadi!";
+} else {
+    print "Pencere acildi. Adres:";
+    print win;
+
+    var buffer = wl_get_buffer(win);
+    print "Pixel buffer adresi:";
+    print buffer;
+
+    // Pencereyi kirmiziya boyayalim (XRGB: 0xFFFF0000)
+    // Her piksel 4 byte (32-bit)
+    var size = width * height;
+    
+    // Yavas bir döngü ile boyama (Serpent hiziyla)
+    print "Boyama basliyor...";
+    for (var i = 0; i < size; i = i + 1) {
+        // buffer + (i * 4) adresine 0xFFFF0000 yaz
+        // sizeof(Value) degil, ham byte pointer aritmetigi gerekiyor.
+        // Serpent pointer aritmetigi su an byte-serviyesinde (vm.c'de oyle ayarladik).
+        *(buffer + (i * 4)) = 255; // Blue
+        *(buffer + (i * 4) + 1) = 0;   // Green
+        *(buffer + (i * 4) + 2) = 255; // Red
+        *(buffer + (i * 4) + 3) = 0;   // Alpha/Reserved
+    }
+
+    print "Commit ediliyor...";
+    wl_commit(win);
+
+    print "Event loop basliyor (Kapatmak için pencereyi kapatin veya terminalden durdurun)...";
+    var active = true;
+    while (active) {
+        active = wl_poll(win);
+    }
+
+    print "Temizlik yapiliyor...";
+    wl_close(win);
+}
+
+print "Test bitti.";

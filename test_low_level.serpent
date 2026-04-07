@@ -1,0 +1,47 @@
+print "--- Hardware Level Test ---";
+
+// 1. Bitwise İşlemleri
+var a = 5; // 0101
+var b = 3; // 0011
+print "Bitwise AND (5 & 3):";
+print a & b; // 1 (0001)
+print "Bitwise OR (5 | 3):";
+print a | b; // 7 (0111)
+
+// 2. İşaretçi (Pointer) İşlemleri
+var x = 42;
+var p = &x;
+print "Isaretçi okuma (*p):";
+print *p; // 42
+*p = 99;
+print "Isaretçi üzerinden yazma sonrası x:";
+print x; // 99
+
+// 3. Dinamik Bellek Yönetimi (Native)
+print "16 byte bellek ayriliyor...";
+var mem = alloc(16);
+print "Bellek adresi:";
+print mem;
+
+// 4. Pointer Aritmetigi
+// Her bir 'Value' hücresi sizeof(Value) kadar yer kaplar.
+var v_size = sizeof(0);
+print "Value boyutu:";
+print v_size;
+
+var p_next = mem + v_size;
+print "Aritmetik sonrası adres (mem + v_size):";
+print p_next;
+
+// 5. Ham belleğe veri yazma ve okuma
+*mem = 123.456;
+*p_next = 789;
+
+print "Bellekten okunan degerler:";
+print *mem;    // 123.456
+print *p_next; // 789
+
+free(mem);
+print "Bellek serbest birakildi.";
+
+print "--- Hardware Level Test Basarili! ---";

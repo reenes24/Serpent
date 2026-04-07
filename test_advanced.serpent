@@ -1,0 +1,24 @@
+var x = 10;
+{
+    var y = 5;
+    print x + y; // 15
+    x = x + y;
+}
+print x; // 15
+
+if (x > 10 and true) {
+    print "x is greater than 10";
+} else {
+    print "error";
+}
+
+var i = 0;
+while (i < 3) {
+    print i;
+    i = i + 1;
+}
+
+for (var j = 0; j < 2; j = j + 1) {
+    print "loop";
+    print j;
+}

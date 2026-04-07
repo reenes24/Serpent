@@ -1,0 +1,54 @@
+print "--- Serpent Gelişmiş GUI Testi ---";
+
+var width = 500;
+var height = 400;
+var win = wl_create(width, height, "Serpent Gelişmiş Arayüz");
+
+if (win == nil) {
+    print "Hata: Pencere oluşturulamadı!";
+} else {
+    // Renk Tanımları (XRGB8888)
+    var black = 0;
+    var white = 4294967295; // 0xFFFFFFFF
+    var red   = 4294901760; // 0xFFFF0000
+    var green = 4278255360; // 0xFF00FF00
+    var blue  = 4278190335; // 0xFF0000FF
+    var sky   = 4287090687; // 0xFF87CEEB
+
+    // Arka planı temizle (Gökyüzü mavisi)
+    wl_draw_rect(win, 0, 0, width, height, sky);
+
+    // Bir başlık kutusu çiz
+    wl_draw_rect(win, 20, 20, 460, 60, white);
+    wl_draw_text(win, 40, 40, "SERPENT PROGRAMMING LANGUAGE", black);
+
+    // Bilgi kutuları
+    wl_draw_rect(win, 20, 100, 220, 150, blue);
+    wl_draw_text(win, 30, 110, "Donanim Seviyesi", white);
+    wl_draw_text(win, 30, 140, "- Pointers", white);
+    wl_draw_text(win, 30, 160, "- Bitwise Ops", white);
+    wl_draw_text(win, 30, 180, "- Raw Memory", white);
+
+    wl_draw_rect(win, 260, 100, 220, 150, green);
+    wl_draw_text(win, 270, 110, "Görsel Yetenek", black);
+    wl_draw_text(win, 270, 140, "- Wayland SSD", black);
+    wl_draw_text(win, 270, 160, "- Bitmap Fonts", black);
+    wl_draw_text(win, 270, 180, "- Fast Rects", black);
+
+    // Alt bilgi
+    wl_draw_text(win, 20, 300, "Serpent ile düsük seviyeli GUI keyfi!", black);
+    wl_draw_rect(win, 20, 330, 460, 5, red);
+
+    print "Çizim tamamlandı, commit ediliyor...";
+    wl_commit(win);
+
+    print "Olay döngüsü başlıyor...";
+    var running = true;
+    while (running) {
+        running = wl_poll(win);
+    }
+
+    wl_close(win);
+}
+
+print "Test sonlandı.";

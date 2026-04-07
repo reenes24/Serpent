@@ -1,0 +1,73 @@
+// Serpent Gelişmiş Dashboard Testi
+// Bu test: Networking, GUI ve Mouse etkileşimini birleştirir.
+
+print "--- Serpent Dashboard Baslatiliyor ---";
+
+var win = wl_create(800, 600);
+if (!win) {
+    print "Hata: Wayland penceresi olusturulamadi.";
+} else {
+
+print "Veri cekiliyor...";
+var api_data = http_get("https://httpbin.org/get");
+// Basit bir parser olmadigi icin ham veriyi kisaltarak gosterecegiz
+var display_text = "Sunucu Yaniti Yuklendi";
+
+var live_status = "CANLI";
+var frame = 0;
+
+while (wl_poll(win)) {
+    // Arka planı temizle (Koyu Lacivert/Siyah)
+    wl_draw_rect(win, 0, 0, 800, 600, 0x050510);
+    
+    // Dashboard Basligi
+    wl_draw_rect(win, 0, 0, 800, 50, 0x1A1A2E);
+    wl_draw_text(win, 20, 17, "SERPENT SISTEM DASHBOARD v1.0", 0xFFFFFF);
+    
+    // Mouse Durumu
+    var mx = wl_get_mouse_x(win);
+    var my = wl_get_mouse_y(win);
+    var btn = wl_get_mouse_btn(win);
+    
+    var mouse_info = "Fare: (" + mx + ", " + my + ")";
+    wl_draw_text(win, 600, 17, mouse_info, 0x00FF00);
+    
+    // Sol Panel: Ag Verisi
+    wl_draw_rect(win, 20, 70, 370, 510, 0x16213E);
+    wl_draw_text(win, 40, 90, "[ AG DAN GELEN VERI ]", 0xE94560);
+    wl_draw_text(win, 40, 120, "API: httpbin.org/get", 0xAAAAAA);
+    wl_draw_text(win, 40, 150, "Durum: 200 OK", 0x00FF00);
+    
+    // Ag verisinin bir kismini goster
+    wl_draw_text(win, 40, 200, "Ham Veri:", 0xFFFFFF);
+    wl_draw_rect(win, 40, 220, 330, 2, 0x333333);
+    wl_draw_text(win, 40, 240, "Baglanti basarili.", 0x00CCFF);
+    wl_draw_text(win, 40, 260, "Veri okunabiliyor.", 0x00CCFF);
+    
+    // Sag Panel: Interaktif Alan
+    wl_draw_rect(win, 410, 70, 370, 510, 0x1a1a2e);
+    wl_draw_text(win, 430, 90, "[ ETKILESIMLI ALAN ]", 0xE94560);
+    wl_draw_text(win, 430, 120, "Cizmek icin tikla!", 0xAAAAAA);
+
+    // Fare ile etkilesim: Tiklaninca cember ve cizgi
+    if (btn == 1) {
+        wl_draw_circle(win, mx, my, 20, 0x00FF00);
+        wl_draw_line(win, 410, 70, mx, my, 0x3300FF00); // Seffaf gibi (aslinda degil ama olsun)
+    }
+    
+    // Carpraz cizgilerle gorsellik
+    wl_draw_line(win, 410, 510, 780, 510, 0x333333);
+    
+    // Canlı Gösterge Animasyonu
+    frame = frame + 1;
+    if ((frame / 30) % 2 == 0) {
+        wl_draw_circle(win, 760, 25, 5, 0xFF0000);
+        wl_draw_text(win, 700, 17, "CANLI", 0xFF0000);
+    }
+    
+    wl_commit(win);
+}
+
+wl_close(win);
+print "--- Dashboard Kapatildi ---";
+}

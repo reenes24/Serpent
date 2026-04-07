@@ -1,0 +1,36 @@
+print "--- Pointers Test ---";
+
+var x = 10;
+print "x'in degeri:";
+print x; // 10
+
+var p = &x;
+print "p (x'in adresi) uzerinden okuma (*p):";
+print *p; // 10
+
+*p = 20;
+print "p uzerinden atama yaptiktan sonra x'in degeri:";
+print x; // 20
+
+print "--- Global Pointer Test ---";
+var g = 100;
+var pg = &g;
+print "Global g degeri:";
+print *pg; // 100
+
+*pg = 500;
+print "Global g'nin yeni degeri:";
+print g; // 500
+
+print "--- Pointer Re-assignment ---";
+var a = 1;
+var b = 2;
+var ptr = &a;
+print "ptr su an a'yi gosteriyor:";
+print *ptr; // 1
+
+ptr = &b;
+print "ptr su an b'yi gosteriyor:";
+print *ptr; // 2
+
+print "Pointer Testi Basarili!";

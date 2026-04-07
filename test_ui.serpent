@@ -1,0 +1,61 @@
+// Serpent GUI + HTTP POST Entegrasyonu
+// Bu script: TextBox'taki veriyi bir HTTP sitesine POST eder.
+
+print "--- Serpent GUI + Network Testi Baslatiliyor ---";
+
+var win = wl_create(800, 600, "Serpent GUI & HTTP Post");
+if (!win) {
+    print "Hata: Pencere olusturulamadi.";
+} else {
+
+var input_text = "Serpent'ten Selamlar!";
+var response_status = "Henüz gönderilmedi.";
+var click_count = 0;
+
+while (wl_poll(win)) {
+    // 1. Arka plan
+    wl_draw_rect(win, 0, 0, 800, 600, 0x101010);
+    
+    // 2. Baslik ve Bilgi
+    wl_draw_text(win, 20, 20, "SERPENT NETWORK & GUI ENTEGRASYONU", 0x33FF33);
+    wl_draw_text(win, 20, 50, "Asagidaki kutuya yazin ve butona basin.", 0xAAAAAA);
+    
+    // 3. Metin Kutusu (TextBox)
+    wl_draw_text(win, 50, 100, "Mesajiniz:", 0xFFFFFF);
+    input_text = wl_textbox(win, 50, 130, 400, 50, input_text, 101);
+    
+    // 4. Gonder Butonu (POST)
+    if (wl_button(win, 50, 200, 200, 50, "VERIYI POST ET")) {
+        print "INFO: POST istegi baslatiliyor...";
+        response_status = "Gönderiliyor... (Yanit Bekleniyor)";
+        
+        // HTTP POST isteği (Senkron)
+        // https://httpbin.org/post adresine metni gönderiyoruz
+        var resp = http_post("https://httpbin.org/post", input_text, "text/plain");
+        
+        if (resp) {
+            print "SUCCESS: Yanit alindi.";
+            response_status = "Gonderildi! HTTP 200 OK";
+            click_count = click_count + 1;
+        } else {
+            print "ERROR: İstek basarisiz.";
+            response_status = "Hata: Sunucuya ulasilamadi.";
+        }
+    }
+    
+    // 5. Durum Paneli
+    wl_draw_rect(win, 20, 350, 760, 200, 0x1A1A1A);
+    wl_draw_text(win, 40, 370, "SUNUCU YANITI / DURUM:", 0x00CCFF);
+    wl_draw_text(win, 40, 400, response_status, 0xFFFF00);
+    wl_draw_text(win, 40, 430, "Toplam Gonderim: " + click_count, 0xFFFFFF);
+
+    if (click_count > 0) {
+       wl_draw_text(win, 40, 500, "Not: Veri httpbin.org sitesine basariyla iletildi.", 0x777777);
+    }
+
+    wl_commit(win);
+}
+
+wl_close(win);
+print "--- Test bitti ---";
+}

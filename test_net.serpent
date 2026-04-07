@@ -1,0 +1,32 @@
+print "--- Serpent Network Testi ---";
+
+// 1. HTTP GET Testi
+print "GET istegi atiliyor (JSONPlaceholder)...";
+var get_url = "https://jsonplaceholder.typicode.com/todos/1";
+var get_cevap = http_get(get_url);
+
+if (get_cevap != nil) {
+    print "GET Basarili! Yanit:";
+    print get_cevap;
+} else {
+    print "GET Hatasi!";
+}
+
+print "";
+
+// 2. HTTP POST Testi (JSON)
+print "POST istegi atiliyor (httpbin.org)...";
+var post_url = "https://httpbin.org/post";
+var json_body = "{\"isim\": \"Serpent\", \"ozellik\": \"Networking\", \"durum\": \"Harika\"}";
+
+var post_cevap = http_post(post_url, json_body, "application/json");
+
+if (post_cevap != nil) {
+    print "POST Basarili! Sunucunun aldigi veri:";
+    // httpbin dönen JSON'ı 'json' anahtarı altında gösterir
+    print post_cevap;
+} else {
+    print "POST Hatasi!";
+}
+
+print "--- Test Bitti ---";
